@@ -1,5 +1,4 @@
 import { Billboard as BillboardType} from "@/types";
-import { url } from "inspector";
 
 interface BillboardProps {
     data: BillboardType
