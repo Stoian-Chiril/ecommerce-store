@@ -1,25 +1,20 @@
-import getBillboard from "@/actions/get-billboards";
-import getProducts from "@/actions/get-products";
-import Billboard from "@/components/billboard";
-import ProductList from "@/components/product-list";
-import Container from "@/components/ui/container"
+import getStores from "@/actions/get-stores";
+import StoreSwitcher from "@/components/store-switcher";
 
 export const revalidate = 0
 
-const HomePage = async () => {
-    const products = await getProducts({isFeatured: true})
-    const billboard = await getBillboard();
-
+const StoresPage = async () => {
+    const stores = await getStores();
     return (
-        <Container>
-            <div className="space-y-10 pb-10">
-                <Billboard data={billboard} />
-                <div className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8">
-                    <ProductList title="Featured Products" items={products}/>
-                </div>
-            </div>
-        </Container>
-    )
-}
+    <div className="flex flex-col items-center justify-center min-h-screen p-4">
+        <h1 className="text-3xl font-bold mb-8">Choose a store</h1>
+        <div className="flex flex-wrap justify-center gap-4">
+          {stores.map((store) => (
+            <StoreSwitcher key={store.id} store={store} />
+          ))}
+        </div>  
+    </div>
+    ) 
+};
 
-export default HomePage;
+export default StoresPage;

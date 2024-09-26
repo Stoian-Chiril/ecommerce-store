@@ -8,12 +8,13 @@ import toast from "react-hot-toast";
 import Button from "@/components/ui/button";
 import Currency from "@/components/ui/currency";
 import useCart from "@/hooks/use-cart";
+import { useRouter } from "next/navigation";
 
-const Summary = () => {
+const Summary = ({storeId}: {storeId: string}) => {
     const searchParams = useSearchParams();
     const items = useCart((state) => state.items);
     const removeAll = useCart((state) => state.removeAll)
-
+    const router = useRouter();
     useEffect(() => {
         if(searchParams.get("success")) {
             toast.success("Payment completed.");
@@ -30,7 +31,7 @@ const Summary = () => {
     }, 0)
 
     const onCheckout = async () => {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/${storeId}/checkout`, {
             productIds: items.map((item) => item.id),
         });
 
@@ -52,6 +53,9 @@ const Summary = () => {
             </div>
             <Button disabled={items.length === 0} onClick={onCheckout} className="w-full mt-6">
                 Checkout
+            </Button>
+            <Button onClick={() => router.push(`/stores/${storeId}`)} className="w-full mt-6">
+                Go back to store
             </Button>
         </div>
     )

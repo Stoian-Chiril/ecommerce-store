@@ -5,10 +5,13 @@ import useCart from "@/hooks/use-cart";
 import { useEffect, useState } from "react";
 import CartItem from "./components/cart-item";
 import Summary from "./components/summary";
+import { useSearchParams } from "next/navigation";
 
 
 const CartPage = () => {
-    
+    const searchParams = useSearchParams();
+    const storeId = searchParams.get("storeId");
+
     const[isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
@@ -40,7 +43,7 @@ const CartPage = () => {
                                 ))}
                             </ul>
                         </div>
-                        <Summary />
+                        <Summary storeId={storeId || ""} />
                     </div>
                 </div>
             </Container>
